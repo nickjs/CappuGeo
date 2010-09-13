@@ -96,6 +96,8 @@ var MapTypeMappings = [
     
     if (_map)
         _map.setZoom(zoom);
+    else
+        [self setNeedsLayout];
     
     if ([delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
         [delegate mapView:self regionDidChangeAnimated:animated];
@@ -115,6 +117,8 @@ var MapTypeMappings = [
     
     if (_map)
         _map.setCenter([aLocation latLng]);
+    else
+        [self setNeedsLayout];
     
     if ([delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
         [delegate mapView:self regionDidChangeAnimated:animated];
@@ -144,6 +148,8 @@ var MapTypeMappings = [
         if ([delegate respondsToSelector:@selector(mapView:didAddAnnotationView:)])
             [delegate mapView:self didAddAnnotationView:view];
     }
+    else
+        [self setNeedsLayout];
 }
 
 - (void)addAnnotations:(CPArray)anArray
