@@ -397,7 +397,13 @@ var MapTypeMappings = [
     if(newZoom == zoom)
         return;
     
-    [self setZoom:newZoom animated:NO];
+    if ([delegate respondsToSelector:@selector(mapView:regionWillChangeAnimated:)])
+        [delegate mapView:self regionWillChangeAnimated:YES];
+        
+    zoom = newZoom;
+    
+    if ([delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
+        [delegate mapView:self regionDidChangeAnimated:YES];
     
     if ([delegate respondsToSelector:@selector(mapViewDidChangeZoom:)])
         [delegate mapViewDidChangeZoom:self];
