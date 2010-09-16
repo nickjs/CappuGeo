@@ -29,9 +29,9 @@ CLLocationDidFindPlacemarkNotification = @"CLLocationDidFindPlacemarkNotificatio
 {
     JSObject            coordinate  @accessors(readonly);
     CPDate              timestamp   @accessors(readonly);
-    
+
     CLLocationAccuracy  accuracy    @accessors(readonly);
-    
+
     MKPlacemark         placemark   @accessors;
     MKReverseGeocoder   _geocoder   @accessors(reaonly);
 }
@@ -46,14 +46,14 @@ CLLocationDidFindPlacemarkNotification = @"CLLocationDidFindPlacemarkNotificatio
 - (id)initWithCoordinate:(JSObject)aCoordinate accuracy:(CLLocationAccuracy)anAccuracy timestamp:(CPDate)aDate
 {
     self = [super init];
-    
+
     if (self)
     {
         coordinate = aCoordinate;
         accuracy = anAccuracy;
         timestamp = aDate;
     }
-    
+
     return self;
 }
 
@@ -77,7 +77,7 @@ CLLocationDidFindPlacemarkNotification = @"CLLocationDidFindPlacemarkNotificatio
 {
     if (!coordinate)
         return nil;
-    
+
     return new google.maps.LatLng(coordinate.latitude, coordinate.longitude);
 }
 
@@ -85,7 +85,7 @@ CLLocationDidFindPlacemarkNotification = @"CLLocationDidFindPlacemarkNotificatio
 {
     if (_geocoder)
         [_geocoder cancel];
-    
+
     _geocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self];
     [_geocoder setDelegate:self];
     [_geocoder start];
