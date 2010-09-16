@@ -22,6 +22,8 @@
 
 @import <Foundation/CPObject.j>
 
+@import "MKPlacemark.j"
+
 @implementation MKReverseGeocoder : CPObject
 {
     id              delegate    @accessors;
