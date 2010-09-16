@@ -22,6 +22,7 @@
 
 @import <Foundation/CPObject.j>
 
+@import "MKReverseGeocoder.j"
 
 CLLocationDidFindPlacemarkNotification = @"CLLocationDidFindPlacemarkNotification";
 
