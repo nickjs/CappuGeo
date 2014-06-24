@@ -22,25 +22,26 @@
 
 @import <Foundation/CPObject.j>
 
+@import "MKPlacemark.j"
 
 @implementation MKReverseGeocoder : CPObject
 {
     id              delegate    @accessors;
     CLLocation      coordinate  @accessors(readonly);
     MKPlacemark     placemark   @accessors(readonly);
-    
+
     BOOL            querying    @accessors(readonly);
-    
+
     JSObject        _geocoder;
 }
 
 - (id)initWithCoordinate:(CLLocation)aLocation
 {
     self = [super init];
-    
+
     if (self)
         coordinate = aLocation;
-    
+
     return self;
 }
 
@@ -48,14 +49,14 @@
 {
     if (querying)
         return;
-    
+
     querying = YES;
-    
+
     _geocoder = new google.maps.Geocoder();
     _geocoder.geocode({latLng: [coordinate latLng]}, function(results, status) {
         if (!querying)
             return;
-        
+
         if (status !== google.maps.GeocoderStatus.OK)
         {
             if ([delegate respondsToSelector:@selector(reverseGeocoder:didFailWithError:)])
@@ -71,16 +72,16 @@
 - (void)_didFinishLoading:(JSObject)results
 {
     var object = {};
-    
+
     object['description'] = results[0].formatted_address;
-    
+
     results = results[0]['address_components'];
     for (var i = 0, count = results.length; i < count; i++)
     {
         var result = results[i],
             resultType = result.types[0],
             shortName = result.short_name;
-        
+
         if (resultType === @"street_number")
             object[AddressSubThoroughfareKey] = shortName;
         else if (resultType === @"route")
@@ -101,10 +102,10 @@
         else if (resultType === @"postal_code")
             object[AddressPostalCodeKey] = shortName;
     }
-    
+
     var placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:[CPDictionary dictionaryWithJSObject:object]];
     [delegate reverseGeocoder:self didFindPlacemark:placemark];
-    
+
     [self cancel];
 }
 
